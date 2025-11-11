@@ -3,360 +3,441 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Apex Design of Nampa</title>
+    <title>Apex Design of Nampa</title>
+
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600&display=swap");
+
+      :root {
+        --bg: #000000; /* page background (below hero) */
+        --panel: #101217;
+        --text: #e8e8e8;
+        --muted: #aaa;
+        --gold: #d4af37;
+        --gold-soft: #c9a227;
+        --outline: rgba(255, 255, 255, 0.05);
+      }
 
       * {
-        box-sizing: border-box;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
       }
 
       body {
-        font-family: "Montserrat", sans-serif;
-        background-color: #0e0e11;
-        color: #e4e4e4;
-        line-height: 1.7;
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 25% 10%, #151821, var(--bg));
         overflow-x: hidden;
       }
 
-      /* ---- HERO SECTION ---- */
+      /* subtle grain for depth */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: url("https://grainy-gradients.vercel.app/noise.svg");
+        opacity: 0.15;
+      }
+
+      /* floating gold light */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+            400px 400px at 50% 50%,
+            rgba(212, 175, 55, 0.08),
+            transparent 80%
+          ),
+          radial-gradient(
+            300px 300px at 80% 20%,
+            rgba(255, 255, 255, 0.04),
+            transparent 80%
+          ),
+          radial-gradient(
+            500px 500px at 20% 80%,
+            rgba(212, 175, 55, 0.06),
+            transparent 80%
+          );
+        animation: luxMotion 10s ease-in-out infinite alternate;
+        z-index: -1;
+      }
+      @keyframes luxMotion {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-30px, 40px) scale(1.05);
+        }
+        100% {
+          transform: translate(30px, -40px) scale(1);
+        }
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 15px 40px;
+        background: rgba(10, 10, 12, 0.8);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--outline);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 100;
+        animation: slideDown 1s ease forwards;
+        opacity: 0;
+      }
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      nav .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: linear-gradient(90deg, var(--gold), #f3e6b3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      nav a {
+        color: var(--text);
+        text-decoration: none;
+        margin-left: 25px;
+        font-weight: 600;
+        opacity: 0.85;
+        transition: opacity 0.3s, color 0.3s;
+      }
+      nav a:hover {
+        opacity: 1;
+        color: var(--gold);
+      }
+
+      /* HERO */
       header {
-        position: relative;
         height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         text-align: center;
+        padding: 0 20px;
+        position: relative;
         overflow: hidden;
-        background: radial-gradient(circle at 30% 20%, #0d2038, #050509);
+        background: linear-gradient(160deg, #0e0f13, #090a0c);
       }
 
+      /* pulsing inner glow */
       header::before {
         content: "";
         position: absolute;
-        top: -30%;
-        left: -30%;
-        width: 160%;
-        height: 160%;
-        background: linear-gradient(
-          120deg,
-          rgba(0, 145, 255, 0.3),
-          rgba(255, 255, 255, 0.05),
-          rgba(0, 145, 255, 0.3)
-        );
-        animation: rotateBg 12s linear infinite;
+        inset: 0;
         z-index: 0;
-        opacity: 0.4;
+        background: radial-gradient(
+          circle at center,
+          rgba(212, 175, 55, 0.1),
+          transparent 70%
+        );
+        animation: pulseGlow 2s ease-in-out infinite alternate;
+        opacity: 0.8;
       }
-
-      @keyframes rotateBg {
+      @keyframes pulseGlow {
         from {
-          transform: rotate(0deg);
+          opacity: 0.6;
+          transform: scale(1);
         }
         to {
-          transform: rotate(360deg);
+          opacity: 1;
+          transform: scale(1.05);
         }
+      }
+
+      /* NEW: blurred gradient that spills onto the next section */
+      header::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 280px;
+        z-index: 2;
+        background: linear-gradient(
+          to bottom,
+          rgba(14, 15, 19, 0) 0%,
+          rgba(14, 15, 19, 0.6) 50%,
+          rgba(11, 12, 14, 0.9) 85%,
+          rgba(11, 12, 14, 1) 100%
+        );
+        mix-blend-mode: soft-light;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        pointer-events: none;
       }
 
       header h1 {
-        font-size: 4em;
+        font-family: "Playfair Display", serif;
+        font-size: 3.8rem;
         font-weight: 800;
-        background: linear-gradient(90deg, #00b4db, #0083b0);
+        background: linear-gradient(90deg, #fff, #e5cf86, var(--gold));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 25px rgba(0, 145, 255, 0.3);
-        z-index: 2;
-        position: relative;
-      }
-
-      header p {
-        font-size: 1.4em;
-        color: #b0b9c4;
-        margin-top: 15px;
-        z-index: 2;
-        position: relative;
-      }
-
-      .hero-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background: radial-gradient(
-          circle at center,
-          rgba(0, 0, 0, 0.2),
-          rgba(0, 0, 0, 0.9)
-        );
+        text-shadow: 0 0 35px rgba(212, 175, 55, 0.25);
         z-index: 1;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1.5s ease forwards 0.6s;
+      }
+      header p {
+        margin-top: 15px;
+        font-size: 1.2rem;
+        color: var(--muted);
+        max-width: 600px;
+        z-index: 1;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1.5s ease forwards 1.2s;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: none;
+        }
       }
 
-      /* ---- SECTION BASE ---- */
+      /* SECTIONS */
       section {
         max-width: 1200px;
-        margin: auto;
+        margin: 0 auto;
         padding: 100px 20px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1s ease;
+      }
+      section.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* NEW: counter-gradient on the first section to receive the fade */
+      #about::before {
+        content: "";
+        position: absolute;
+        top: -160px;
+        left: 0;
+        right: 0;
+        height: 200px;
+        background: linear-gradient(
+          to top,
+          rgba(11, 12, 14, 0) 0%,
+          rgba(11, 12, 14, 0.75) 50%,
+          rgba(11, 12, 14, 1) 100%
+        );
+        filter: blur(12px);
+        z-index: 0;
+        pointer-events: none;
       }
 
       h2 {
-        font-size: 2em;
-        font-weight: 700;
-        color: #00b4db;
-        margin-bottom: 30px;
-        position: relative;
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, var(--gold), #f1e3a1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
-
-      h2::after {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: #00b4db;
-        border-radius: 2px;
-      }
-
-      /* ---- ABOUT ---- */
       .about p {
-        font-size: 1.1em;
-        color: #cfd6df;
-        max-width: 900px;
+        color: var(--muted);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        max-width: 850px;
       }
 
-      /* ---- PROJECTS ---- */
-      .projects {
+      /* PORTFOLIO */
+      .portfolio {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
-        margin-top: 50px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
       }
-
-      .project-card {
-        background: linear-gradient(160deg, #16181d, #0c0c0e);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+      .project {
+        position: relative;
+        border: 1px solid var(--outline);
         border-radius: 12px;
-        padding: 30px;
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.01)
+        );
+        overflow: hidden;
+        transition: all 0.5s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .project.visible {
+        animation: projectFadeIn 1s ease forwards;
+      }
+      @keyframes projectFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
       }
 
-      .project-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0, 145, 255, 0.25);
+      .project:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
+        border-color: rgba(212, 175, 55, 0.4);
+      }
+      .project h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        color: var(--gold);
+        margin: 20px;
+      }
+      .project p {
+        color: var(--muted);
+        margin: 0 20px 25px;
+        font-size: 0.95rem;
       }
 
-      .project-card h3 {
-        color: #00b4db;
-        margin-bottom: 10px;
-      }
-
-      .project-card p {
-        color: #cfd6df;
-        font-size: 0.95em;
-      }
-
-      /* ---- CONTACT ---- */
-      form {
-        background: linear-gradient(145deg, #15171b, #0c0c0f);
-        padding: 50px;
-        border-radius: 12px;
-        box-shadow: 0 8px 40px rgba(0, 145, 255, 0.15);
+      /* CONTACT */
+      .contact form {
         max-width: 700px;
-        margin: 40px auto 0;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--outline);
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(8px);
       }
-
       label {
         display: block;
-        margin-bottom: 10px;
+        margin-top: 20px;
+        color: var(--gold);
         font-weight: 600;
-        color: #00b4db;
       }
-
       input,
       textarea {
         width: 100%;
-        padding: 14px;
-        border: 1px solid #1f232b;
-        background: #101216;
-        color: #fff;
+        margin-top: 8px;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
-        font-size: 1em;
-        margin-bottom: 25px;
-        transition: border-color 0.3s;
+        background: #0e1115;
+        color: #fff;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
       }
-
       input:focus,
       textarea:focus {
-        border-color: #00b4db;
+        border-color: var(--gold);
         outline: none;
       }
-
-      input[type="submit"] {
-        background: linear-gradient(90deg, #00b4db, #0083b0);
+      button {
+        margin-top: 25px;
+        padding: 12px 20px;
+        background: linear-gradient(90deg, var(--gold), var(--gold-soft));
         border: none;
-        color: #fff;
+        color: #111;
         font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        cursor: pointer;
-        padding: 14px 30px;
         border-radius: 8px;
-        transition: 0.3s;
-      }
-
-      input[type="submit"]:hover {
-        opacity: 0.9;
-        transform: scale(1.02);
-      }
-
-      /* ---- Overlay ---- */
-      #formStatus {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.65);
-        z-index: 9999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease;
-      }
-
-      #formStatus.active {
-        opacity: 1;
-        pointer-events: auto;
         cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      button:hover {
+        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.25);
+        transform: translateY(-2px);
       }
 
-      #formStatus.fade-out {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      #formMessage {
-        background: #1b1f26;
-        padding: 35px 55px;
-        border-radius: 12px;
-        font-size: 1.1em;
-        color: #eaeaea;
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 0 30px rgba(0, 145, 255, 0.2);
-        animation: popIn 0.3s ease;
-        max-width: 400px;
-      }
-
-      #formMessage.success {
-        border-left: 5px solid #00b894;
-        box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
-      }
-
-      #formMessage.error {
-        border-left: 5px solid #ff6b6b;
-        box-shadow: 0 0 30px rgba(255, 100, 100, 0.3);
-      }
-
-      @keyframes popIn {
-        from {
-          transform: scale(0.9);
-          opacity: 0;
-        }
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      .hidden {
-        display: none;
-      }
-
+      /* FOOTER */
       footer {
         text-align: center;
-        padding: 40px;
-        font-size: 0.9em;
-        background: #0b0c0e;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        color: #a4a4a4;
+        padding: 60px 20px;
+        border-top: 1px solid var(--outline);
+        color: var(--muted);
+        font-size: 0.9rem;
       }
-
       footer a {
-        color: #00b4db;
+        color: var(--gold);
         text-decoration: none;
         font-weight: 600;
       }
-
       footer a:hover {
-        color: #0083b0;
+        color: var(--gold-soft);
       }
     </style>
   </head>
 
   <body>
-    <header>
-      <div class="hero-overlay"></div>
+    <nav>
+      <div class="logo">Apex Design of Nampa</div>
       <div>
-        <h1>The Apex Design of Nampa</h1>
-        <p>Crafting digital experiences that captivate and elevate.</p>
+        <a href="#about">About</a>
+        <a href="#portfolio">Work</a>
+        <a href="#contact">Contact</a>
       </div>
+    </nav>
+
+    <header>
+      <h1>Design with Heart, Built with Purpose</h1>
+      <p>
+        We craft elegant, modern websites that tell your story and welcome your
+        audience with warmth and style.
+      </p>
     </header>
 
-    <section class="about">
+    <section id="about" class="about">
       <h2>About Us</h2>
       <p>
-        At <strong>The Apex Design of Nampa</strong>, we fuse artistry and
-        engineering to create breathtaking digital experiences. Every website we
-        build is designed to command attention — clean, bold, and strategically
-        built to convert visitors into clients. <br /><br />
-        From small business websites to full-scale brand platforms, our mission
-        is to deliver design that feels timeless, precise, and unforgettable. We
-        take pride in building solutions that stand at the
-        <strong>apex of creativity and professionalism</strong>.
+        At <strong>Apex Design of Nampa</strong>, design is more than a service
+        it’s a collaboration. We combine thoughtful craftsmanship with modern
+        technology to create digital spaces that feel natural, inviting, and
+        uniquely you. Every project is shaped with care, precision, and a
+        genuine passion for helping your vision shine.
       </p>
     </section>
 
-    <section class="projects-section">
-      <h2>Featured Projects</h2>
-      <div class="projects">
-        <div class="project-card">
-          <h3>Pacific Trails Resort</h3>
-          <p>
-            A luxury resort website designed with immersive visuals, responsive
-            layouts, and an intuitive booking experience.
-          </p>
-        </div>
-        <div class="project-card">
-          <h3>Below the Hollow</h3>
-          <p>
-            An interactive 3D tower-defense experience built in Unity, featuring
-            procedural worlds and stunning visual polish.
-          </p>
-        </div>
-        <div class="project-card">
-          <h3>Idaho Campgrounds & Trails</h3>
-          <p>
-            A travel app prototype showcasing location-based exploration, built
-            for outdoor enthusiasts across Idaho.
-          </p>
-        </div>
+    <section id="portfolio">
+      <h2>Portfolio</h2>
+      <div class="project">
+  <a href="lunaBotanica.html" target="_blank" style="text-decoration: none; color: inherit;">
+    <div style="border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 20px rgba(0,0,0,0.2);">
+      <iframe src="lunaBotanica.html" 
+              style="width:100%; height:220px; border:none; transform:scale(1); pointer-events:none;">
+      </iframe>
+    </div>
+    <h3>Luna Botanica</h3>
+    <p>A luxury skincare showcase site with motion, light, and depth.</p>
+  </a>
+</div>
+        <div class="project"></div>
       </div>
     </section>
 
-    <section class="contact">
-      <h2>Contact Us</h2>
-      <p>
-        Have a project in mind or need a website upgrade? We’d love to help. Use
-        the form below to reach out — we typically respond within one business
-        day.
-      </p>
-
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
       <form id="contactForm">
         <label for="email">Email</label>
         <input
@@ -367,34 +448,33 @@
           required
         />
 
-        <label for="message">Project Description</label>
+        <label for="message">Tell Us About Your Project</label>
         <textarea
           id="message"
           name="message"
           rows="6"
-          placeholder="Tell us about your project..."
+          placeholder="We’d love to hear what you’re envisioning..."
           required
         ></textarea>
 
-        <input type="submit" value="Send Message" />
+        <button type="submit">Send Message</button>
       </form>
 
-      <!-- Overlay Message -->
       <div id="formStatus" class="hidden">
         <div id="formMessage"></div>
       </div>
     </section>
 
     <footer>
-      © 2025 The Apex Design of Nampa •
+      © 2025 Apex Design of Nampa —
       <a href="mailto:ApexDesignNampa@gmail.com">ApexDesignNampa@gmail.com</a>
     </footer>
 
     <script>
+      // contact form
       const form = document.getElementById("contactForm");
       const statusOverlay = document.getElementById("formStatus");
       const messageBox = document.getElementById("formMessage");
-
       let hideTimer;
 
       form.addEventListener("submit", async (e) => {
@@ -403,11 +483,7 @@
         const message = document.getElementById("message").value.trim();
 
         messageBox.innerHTML = "Sending...";
-        messageBox.className = "";
-        statusOverlay.classList.remove("hidden", "fade-out");
         statusOverlay.classList.add("active");
-
-        clearTimeout(hideTimer);
 
         try {
           const response = await fetch(
@@ -421,37 +497,53 @@
 
           if (response.ok) {
             messageBox.innerHTML =
-              "✅ Message sent successfully! We'll be in touch soon.";
-            messageBox.classList.add("success");
+              "✅ Message sent successfully! We’ll be in touch soon.";
             form.reset();
           } else {
             messageBox.innerHTML =
               "⚠️ There was an issue sending your message. Please try again.";
-            messageBox.classList.add("error");
           }
-        } catch (error) {
+        } catch (err) {
           messageBox.innerHTML =
-            "❌ Network error. Please check your connection and try again.";
-          messageBox.classList.add("error");
+            "❌ Network error. Please try again in a moment.";
         }
 
-        // Auto hide after 4 seconds
-        hideTimer = setTimeout(() => fadeOutOverlay(), 4000);
+        hideTimer = setTimeout(() => {
+          statusOverlay.classList.remove("active");
+        }, 4000);
       });
 
-      // Allow manual close by clicking anywhere
-      statusOverlay.addEventListener("click", fadeOutOverlay);
-
-      function fadeOutOverlay() {
-        if (!statusOverlay.classList.contains("active")) return;
+      statusOverlay?.addEventListener("click", () => {
         statusOverlay.classList.remove("active");
-        statusOverlay.classList.add("fade-out");
-        setTimeout(() => {
-          statusOverlay.classList.add("hidden");
-          statusOverlay.classList.remove("fade-out");
-          messageBox.classList.remove("success", "error");
-        }, 400);
-      }
+        clearTimeout(hideTimer);
+      });
+
+      // section + cascading project reveals
+      const sections = document.querySelectorAll("section");
+      const projects = document.querySelectorAll(".project");
+
+      const reveal = () => {
+        const trigger = window.innerHeight * 0.85;
+
+        sections.forEach((sec) => {
+          if (sec.getBoundingClientRect().top < trigger)
+            sec.classList.add("visible");
+        });
+
+        let delay = 0;
+        projects.forEach((proj) => {
+          if (
+            proj.getBoundingClientRect().top < trigger &&
+            !proj.classList.contains("visible")
+          ) {
+            setTimeout(() => proj.classList.add("visible"), delay);
+            delay += 180; // cascade
+          }
+        });
+      };
+
+      window.addEventListener("scroll", reveal);
+      window.addEventListener("load", reveal);
     </script>
   </body>
 </html>
