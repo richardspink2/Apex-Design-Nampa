@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Apex Design of Nampa</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap");
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: #0e0e11;
+        color: #e4e4e4;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ---- HERO SECTION ---- */
+      header {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        overflow: hidden;
+        background: radial-gradient(circle at 30% 20%, #0d2038, #050509);
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -30%;
+        left: -30%;
+        width: 160%;
+        height: 160%;
+        background: linear-gradient(
+          120deg,
+          rgba(0, 145, 255, 0.3),
+          rgba(255, 255, 255, 0.05),
+          rgba(0, 145, 255, 0.3)
+        );
+        animation: rotateBg 12s linear infinite;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      @keyframes rotateBg {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      header h1 {
+        font-size: 4em;
+        font-weight: 800;
+        background: linear-gradient(90deg, #00b4db, #0083b0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 25px rgba(0, 145, 255, 0.3);
+        z-index: 2;
+        position: relative;
+      }
+
+      header p {
+        font-size: 1.4em;
+        color: #b0b9c4;
+        margin-top: 15px;
+        z-index: 2;
+        position: relative;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: radial-gradient(
+          circle at center,
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0.9)
+        );
+        z-index: 1;
+      }
+
+      /* ---- SECTION BASE ---- */
+      section {
+        max-width: 1200px;
+        margin: auto;
+        padding: 100px 20px;
+      }
+
+      h2 {
+        font-size: 2em;
+        font-weight: 700;
+        color: #00b4db;
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #00b4db;
+        border-radius: 2px;
+      }
+
+      /* ---- ABOUT ---- */
+      .about p {
+        font-size: 1.1em;
+        color: #cfd6df;
+        max-width: 900px;
+      }
+
+      /* ---- PROJECTS ---- */
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .project-card {
+        background: linear-gradient(160deg, #16181d, #0c0c0e);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 30px;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 145, 255, 0.25);
+      }
+
+      .project-card h3 {
+        color: #00b4db;
+        margin-bottom: 10px;
+      }
+
+      .project-card p {
+        color: #cfd6df;
+        font-size: 0.95em;
+      }
+
+      /* ---- CONTACT ---- */
+      form {
+        background: linear-gradient(145deg, #15171b, #0c0c0f);
+        padding: 50px;
+        border-radius: 12px;
+        box-shadow: 0 8px 40px rgba(0, 145, 255, 0.15);
+        max-width: 700px;
+        margin: 40px auto 0;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #00b4db;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #1f232b;
+        background: #101216;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 1em;
+        margin-bottom: 25px;
+        transition: border-color 0.3s;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: #00b4db;
+        outline: none;
+      }
+
+      input[type="submit"] {
+        background: linear-gradient(90deg, #00b4db, #0083b0);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        padding: 14px 30px;
+        border-radius: 8px;
+        transition: 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+      }
+
+      /* ---- Overlay ---- */
+      #formStatus {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.65);
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+
+      #formStatus.active {
+        opacity: 1;
+        pointer-events: auto;
+        cursor: pointer;
+      }
+
+      #formStatus.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #formMessage {
+        background: #1b1f26;
+        padding: 35px 55px;
+        border-radius: 12px;
+        font-size: 1.1em;
+        color: #eaeaea;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 30px rgba(0, 145, 255, 0.2);
+        animation: popIn 0.3s ease;
+        max-width: 400px;
+      }
+
+      #formMessage.success {
+        border-left: 5px solid #00b894;
+        box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
+      }
+
+      #formMessage.error {
+        border-left: 5px solid #ff6b6b;
+        box-shadow: 0 0 30px rgba(255, 100, 100, 0.3);
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      footer {
+        text-align: center;
+        padding: 40px;
+        font-size: 0.9em;
+        background: #0b0c0e;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        color: #a4a4a4;
+      }
+
+      footer a {
+        color: #00b4db;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      footer a:hover {
+        color: #0083b0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="hero-overlay"></div>
+      <div>
+        <h1>The Apex Design of Nampa</h1>
+        <p>Crafting digital experiences that captivate and elevate.</p>
+      </div>
+    </header>
+
+    <section class="about">
+      <h2>About Us</h2>
+      <p>
+        At <strong>The Apex Design of Nampa</strong>, we fuse artistry and
+        engineering to create breathtaking digital experiences. Every website we
+        build is designed to command attention — clean, bold, and strategically
+        built to convert visitors into clients. <br /><br />
+        From small business websites to full-scale brand platforms, our mission
+        is to deliver design that feels timeless, precise, and unforgettable. We
+        take pride in building solutions that stand at the
+        <strong>apex of creativity and professionalism</strong>.
+      </p>
+    </section>
+
+    <section class="projects-section">
+      <h2>Featured Projects</h2>
+      <div class="projects">
+        <div class="project-card">
+          <h3>Pacific Trails Resort</h3>
+          <p>
+            A luxury resort website designed with immersive visuals, responsive
+            layouts, and an intuitive booking experience.
+          </p>
+        </div>
+        <div class="project-card">
+          <h3>Below the Hollow</h3>
+          <p>
+            An interactive 3D tower-defense experience built in Unity, featuring
+            procedural worlds and stunning visual polish.
+          </p>
+        </div>
+        <div class="project-card">
+          <h3>Idaho Campgrounds & Trails</h3>
+          <p>
+            A travel app prototype showcasing location-based exploration, built
+            for outdoor enthusiasts across Idaho.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <h2>Contact Us</h2>
+      <p>
+        Have a project in mind or need a website upgrade? We’d love to help. Use
+        the form below to reach out — we typically respond within one business
+        day.
+      </p>
+
+      <form id="contactForm">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+        />
+
+        <label for="message">Project Description</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          placeholder="Tell us about your project..."
+          required
+        ></textarea>
+
+        <input type="submit" value="Send Message" />
+      </form>
+
+      <!-- Overlay Message -->
+      <div id="formStatus" class="hidden">
+        <div id="formMessage"></div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 The Apex Design of Nampa •
+      <a href="mailto:ApexDesignNampa@gmail.com">ApexDesignNampa@gmail.com</a>
+    </footer>
+
+    <script>
+      const form = document.getElementById("contactForm");
+      const statusOverlay = document.getElementById("formStatus");
+      const messageBox = document.getElementById("formMessage");
+
+      let hideTimer;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        messageBox.innerHTML = "Sending...";
+        messageBox.className = "";
+        statusOverlay.classList.remove("hidden", "fade-out");
+        statusOverlay.classList.add("active");
+
+        clearTimeout(hideTimer);
+
+        try {
+          const response = await fetch(
+            "https://send-contact-email-430247311559.us-west1.run.app",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, message }),
+            }
+          );
+
+          if (response.ok) {
+            messageBox.innerHTML =
+              "✅ Message sent successfully! We'll be in touch soon.";
+            messageBox.classList.add("success");
+            form.reset();
+          } else {
+            messageBox.innerHTML =
+              "⚠️ There was an issue sending your message. Please try again.";
+            messageBox.classList.add("error");
+          }
+        } catch (error) {
+          messageBox.innerHTML =
+            "❌ Network error. Please check your connection and try again.";
+          messageBox.classList.add("error");
+        }
+
+        // Auto hide after 4 seconds
+        hideTimer = setTimeout(() => fadeOutOverlay(), 4000);
+      });
+
+      // Allow manual close by clicking anywhere
+      statusOverlay.addEventListener("click", fadeOutOverlay);
+
+      function fadeOutOverlay() {
+        if (!statusOverlay.classList.contains("active")) return;
+        statusOverlay.classList.remove("active");
+        statusOverlay.classList.add("fade-out");
+        setTimeout(() => {
+          statusOverlay.classList.add("hidden");
+          statusOverlay.classList.remove("fade-out");
+          messageBox.classList.remove("success", "error");
+        }, 400);
+      }
+    </script>
+  </body>
+</html>
